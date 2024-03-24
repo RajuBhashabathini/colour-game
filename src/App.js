@@ -118,7 +118,7 @@ function App() {
   return (
     <div className="h-full p-3 bg-blue-200">
       <div className="flex justify-center items-center bg-lime-400">
-        You have tried {selectedItem.current} times
+        You have tried {selectedItem.current} times.
       </div>
       <div className=" ">
         {remainingLength !== cardsDataState.length ? (
