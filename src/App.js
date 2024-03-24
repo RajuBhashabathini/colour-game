@@ -1,111 +1,13 @@
-import { useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import "./App.css";
-// import cardsData from "./mockData/cardsData";
-const cardsData = [
-  {
-    id: 1,
-    colour: "red",
-    found: false,
-    show: false,
-  },
-  {
-    id: 2,
-    colour: "blue",
-    found: false,
-    show: false,
-  },
-  {
-    id: 3,
-    colour: "green",
-    found: false,
-    show: false,
-  },
-  {
-    id: 4,
-    colour: "yellow",
-    found: false,
-    show: false,
-  },
-  {
-    id: 5,
-    colour: "pink",
-    found: false,
-    show: false,
-  },
-  {
-    id: 6,
-    colour: "orange",
-    found: false,
-    show: false,
-  },
-  {
-    id: 7,
-    colour: "aqua",
-    found: false,
-    show: false,
-  },
-  {
-    id: 8,
-    colour: "chocolate",
-    found: false,
-    show: false,
-  },
-  {
-    id: 9,
-    colour: "green",
-    found: false,
-    show: false,
-  },
-  {
-    id: 10,
-    colour: "red",
-    found: false,
-    show: false,
-  },
-  {
-    id: 11,
-    colour: "yellow",
-    found: false,
-    show: false,
-  },
-  {
-    id: 12,
-    colour: "aqua",
-    found: false,
-    show: false,
-  },
-  {
-    id: 13,
-    colour: "orange",
-    found: false,
-    show: false,
-  },
-  {
-    id: 14,
-    colour: "pink",
-    found: false,
-    show: false,
-  },
-  {
-    id: 15,
-    colour: "chocolate",
-    found: false,
-    show: false,
-  },
-  {
-    id: 16,
-    colour: "blue",
-    found: false,
-    show: false,
-  },
-];
+import cardsData from "./mockData/cardsData";
+import randomArray from "./random";
 
 function App() {
   const [history, setHistory] = useState([]);
   const selectedItem = useRef(0);
-  const [cardsDataState, setCardsDataState] = useState(cardsData);
-  const [cardsDataStateDuplicate, setCardsDataStateDuplicate] =
-    useState(cardsData);
+  const [cardsDataState, setCardsDataState] = useState([]);
+  const [cardsDataStateDuplicate, setCardsDataStateDuplicate] = useState([]);
 
   const updateUseref = () => {
     selectedItem.current = selectedItem.current + 1;
@@ -114,6 +16,11 @@ function App() {
   const remainingLength = cardsDataState.filter(
     (ele) => ele.found === true
   ).length;
+
+  useEffect(() => {
+    setCardsDataState(randomArray(cardsData));
+    setCardsDataStateDuplicate(randomArray(cardsData));
+  }, []);
 
   return (
     <div className="h-full p-3 bg-blue-200">
@@ -159,16 +66,11 @@ function App() {
                           }
                           return item;
                         });
-                        console.log("showChange", showChange);
                         setCardsDataState(showChange);
                         if (
                           selectedItem.current > 0 &&
                           selectedItem.current % 2 === 0
                         ) {
-                          console.log(
-                            "this is 2nd click and history is ==>",
-                            cardsDataState
-                          );
                           if (hii[0]?.colour === hii[1]?.colour) {
                             const updatedHello = cardsDataState.map((item) => {
                               if (item.colour === hii[0].colour) {
@@ -188,10 +90,6 @@ function App() {
                               alert("Congrats You have good memory");
                             }, 500);
                           } else {
-                            console.log(
-                              "cardsDataStateDuplicate 1212",
-                              cardsDataStateDuplicate
-                            );
                             setTimeout(() => {
                               setCardsDataState(cardsDataStateDuplicate);
                               setHistory([]);
@@ -200,17 +98,13 @@ function App() {
                           }
                         } else {
                           //! This is first click so we are upadting the history only
-                          console.log(
-                            "this is 1st click and history is ==>",
-                            history
-                          );
                           setHistory(hii);
                         }
                       }
                     }
                   }}
                 >
-                  {element.found === true ? "" : "Click me"}
+                  {element.found === true ? "" : "click me"}
                 </div>
               );
             })}
@@ -221,8 +115,9 @@ function App() {
             <button
               className="bg-blue-500 rounded-lg border border-indigo-400 p-3"
               onClick={() => {
+                window.location.reload();
                 selectedItem.current = 0;
-                setCardsDataState(cardsData);
+                setCardsDataState(randomArray(cardsData));
               }}
             >
               Play Again...
